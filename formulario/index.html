@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Registro</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Déjame tus datos</h2>
+    <form id="formulario">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="telefono">Teléfono:</label>
+        <input type="tel" id="telefono" name="telefono" required>
+
+        <button type="submit">Enviar</button>
+    </form>
+    <p id="mensaje"></p>
+</div>
+
+<script>
+    const form = document.getElementById('formulario');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const nombre = data.get('nombre');
+        const telefono = data.get('telefono');
+
+        const url = 'https://script.google.com/macros/s/AKfycbyZQdCeFFaOgOVQLph-fnWSJ0a759xbqUcvqeCdixCOrOBmhLoO7HLy7owuDLyu2FLn-A/exec'; // <- reemplaza esto
+
+        try {
+            const res = await fetch(url, {
+                method: 'POST',
+                body: new URLSearchParams({ nombre, telefono }),
+            });
+            document.getElementById('mensaje').innerText = "✅ Datos enviados correctamente.";
+            document.getElementById('mensaje').style.color = "green";
+            form.reset();
+        } catch (error) {
+            document.getElementById('mensaje').innerText = "❌ Error al enviar los datos.";
+            document.getElementById('mensaje').style.color = "red";
+        }
+    });
+</script>
+
+</body>
+</html>
